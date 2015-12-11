@@ -3,6 +3,7 @@ import QtQuick.Controls 1.2
 import "../BasicControls"
 import "../BasicLayouts"
 import "../Singletons"
+import "../Singletons/more-event-commands"
 
 ModalWindow {
     id: root

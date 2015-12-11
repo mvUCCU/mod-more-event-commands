@@ -8,9 +8,9 @@ var readLocalFile = function(name) {
   return fs.readFileSync(path.join(__dirname, name))
 }
 
-Essentials.addSingleton("MoreEventCommandsManager", readLocalFile("Singletons/MoreEventCommandsManager.qml"))
-
 ;[
+  "Singletons/more-event-commands/qmldir",
+  "Singletons/more-event-commands/MoreEventCommandsManager.qml",
   "Event/Dialog_EventCommandSelect.qml",
 ].forEach(function(i) {
   if (path.extname(i) == ".js" && path.extname(path.basename(i, ".js")) == ".qml") {

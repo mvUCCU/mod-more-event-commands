@@ -2,7 +2,10 @@
   "name": "more-event-commands",
   "version": "0.0.0",
   "description": "Change the GUI font of the editor.",
-  "dependencies": {},
+  "dependencies": {
+    "essentials": ">=0.0.0",
+    "plugin-parser": ">=0.0.0"
+  },
   "author": "orzFly",
   "homepage": "https://github.com/mvUCCU/mod-more-event-commands"
 }
