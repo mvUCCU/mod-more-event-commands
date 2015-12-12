@@ -10,7 +10,7 @@ ModalWindow {
 
     title: qsTr("Event Commands")
 
-    property int eventCode: 101
+    property var eventCode: 101
     property var eventData
     property int troopId: 0
 
@@ -112,37 +112,32 @@ ModalWindow {
         }
 
         function getCommands() {
-            return getBuiltInCommands();
+            return [].concat(getBuiltInCommands()).concat(getPluginCommands());
         }
 
         function getBuiltInCommands() {
             return [
-                { title: qsTr("Message"),          codeList: [101, 102, 103, 104, 105] },
-                { title: qsTr("Game Progression"), codeList: [121, 122, 123, 124] },
-                { title: qsTr("Flow Control"),     codeList: [111, 112, 113, 115, 117, 118, 119, 108] },
-                { title: qsTr("Party"),            codeList: [125, 126, 127, 128, 129] },
-                { title: qsTr("Actor"),            codeList: [311, 312, 326, 313, 314, 315, 316, 317, 318, 319, 320, 321, 324, 325] },
-                { title: qsTr("Movement"),         codeList: [201, 202, 203, 204, 205, 206] },
-                { title: qsTr("Character"),        codeList: [211, 216, 217, 212, 213, 214] },
-                { title: qsTr("Picture"),          codeList: [231, 232, 233, 234, 235] },
-                { title: qsTr("Timing"),           codeList: [230] },
-                { title: qsTr("Screen"),           codeList: [221, 222, 223, 224, 225, 236] },
-                { title: qsTr("Audio & Video"),    codeList: [241, 242, 243, 244, 245, 246, 249, 250, 251, 261] },
-                { title: qsTr("Scene Control"),    codeList: [301, 302, 303, 351, 352, 353, 354] },
-                { title: qsTr("System Settings"),  codeList: [132, 133, 139, 140, 134, 135, 136, 137, 138, 322, 323] },
-                { title: qsTr("Map"),              codeList: [281, 282, 283, 284, 285] },
-                { title: qsTr("Battle"),           codeList: [331, 332, 342, 333, 334, 335, 336, 337, 339, 340] },
-                { title: qsTr("Advanced"),         codeList: [355, 356] },
-                { title: qsTr("UCCU"),         codeList: [356, 356, 356, 356, 356, 356, 356] },
-                { title: qsTr("UCCU"),         codeList: [356, 356, 356, 356, 356, 356, 356] },
-                { title: qsTr("UCCU"),         codeList: [356, 356, 356, 356, 356, 356, 356] },
-                { title: qsTr("UCCU"),         codeList: [356, 356, 356, 356, 356, 356, 356] },
-                { title: qsTr("UCCU"),         codeList: [356, 356, 356, 356, 356, 356, 356] },
-                { title: qsTr("UCCU"),         codeList: [356, 356, 356, 356, 356, 356, 356] },
-                { title: qsTr("UCCU"),         codeList: [356, 356, 356, 356, 356, 356, 356] },
-                { title: qsTr("UCCU"),         codeList: [356, 356, 356, 356, 356, 356, 356] },
-                { title: qsTr("UCCU"),         codeList: [356, 356, 356, 356, 356, 356, 356] },
+                { "id": "Message",         "title": qsTr("Message"),          "codeList": [101, 102, 103, 104, 105] },
+                { "id": "GameProgression", "title": qsTr("Game Progression"), "codeList": [121, 122, 123, 124] },
+                { "id": "FlowControl",     "title": qsTr("Flow Control"),     "codeList": [111, 112, 113, 115, 117, 118, 119, 108] },
+                { "id": "Party",           "title": qsTr("Party"),            "codeList": [125, 126, 127, 128, 129] },
+                { "id": "Actor",           "title": qsTr("Actor"),            "codeList": [311, 312, 326, 313, 314, 315, 316, 317, 318, 319, 320, 321, 324, 325] },
+                { "id": "Movement",        "title": qsTr("Movement"),         "codeList": [201, 202, 203, 204, 205, 206] },
+                { "id": "Character",       "title": qsTr("Character"),        "codeList": [211, 216, 217, 212, 213, 214] },
+                { "id": "Picture",         "title": qsTr("Picture"),          "codeList": [231, 232, 233, 234, 235] },
+                { "id": "Timing",          "title": qsTr("Timing"),           "codeList": [230] },
+                { "id": "Screen",          "title": qsTr("Screen"),           "codeList": [221, 222, 223, 224, 225, 236] },
+                { "id": "AudioVideo",      "title": qsTr("Audio & Video"),    "codeList": [241, 242, 243, 244, 245, 246, 249, 250, 251, 261] },
+                { "id": "SceneControl",    "title": qsTr("Scene Control"),    "codeList": [301, 302, 303, 351, 352, 353, 354] },
+                { "id": "SystemSettings",  "title": qsTr("System Settings"),  "codeList": [132, 133, 139, 140, 134, 135, 136, 137, 138, 322, 323] },
+                { "id": "Map",             "title": qsTr("Map"),              "codeList": [281, 282, 283, 284, 285] },
+                { "id": "Battle",          "title": qsTr("Battle"),           "codeList": [331, 332, 342, 333, 334, 335, 336, 337, 339, 340] },
+                { "id": "Advanced",        "title": qsTr("Advanced"),         "codeList": [355, 356] },
             ];
+        }
+
+        function getPluginCommands() {
+            return MoreEventCommandsManager.getPluginCommands();
         }
 
         TabView {
@@ -170,7 +165,7 @@ ModalWindow {
                                     EventCommandGroup {
                                         property var group: column[index]
 
-                                        title: group.title + (group.continue ? " (cont.)" : "")
+                                        title: (group.title || group.id) + (group.continue ? " (cont.)" : "")
                                         codeList: group.codeList
                                         onTriggered: dialogBox.triggered(code)
                                     }
